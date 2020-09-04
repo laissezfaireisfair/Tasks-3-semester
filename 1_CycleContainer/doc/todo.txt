@@ -1,0 +1,4 @@
+Not certain specification, just draft of requirements
+
+Template cycle container not calling extra constructors.
+Should have ability to rotate (O(1)). Access member - O(1)
