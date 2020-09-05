@@ -28,7 +28,7 @@ namespace CycleContainer {
         m_body[m_size] = value;
     }
 
-    Container(Container const & other) {
+    Container(Container<T> const & other) {
       alloc_body(other.capacity);
       m_begin = other.begin;
       for (m_size = 0; m_size < size; ++m_size)
@@ -93,7 +93,7 @@ namespace CycleContainer {
 
     void rotate_back(std::uint64_t const distance);
 
-    T& operator=(T const & other);
+    Container<T>& operator=(Container<T> const & other);
 
   private:
     usInt m_capacity;
