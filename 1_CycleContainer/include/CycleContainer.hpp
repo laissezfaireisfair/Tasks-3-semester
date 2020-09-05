@@ -58,14 +58,20 @@ namespace CycleContainer {
     }
 
     T& operator[](std::uint64_t const place) const {
+      if (place > m_size)
+        throw std::out_of_range("Try to reach non-initialised elem of buffer");
       return at(place);
     }
 
     T& get_front() const {
+      if (size == 0)
+        throw std::out_of_range("Try to reach elem of empty buffer");
       return at(realPlace(0));
     }
 
     T& get_back() const {
+      if (size == 0)
+        throw std::out_of_range("Try to reach elem of empty buffer");
       return at(realPlace(m_size - 1));
     }
 
