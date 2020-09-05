@@ -93,7 +93,18 @@ namespace CycleContainer {
 
     void rotate_back(std::uint64_t const distance);
 
-    Container<T>& operator=(Container<T> const & other);
+    Container<T>& operator=(Container<T> const & other)  {
+      if (m_capacity == other.m_capacity) {
+        clean();
+        m_begin = other.begin;
+        for (m_size = 0; m_size < size; ++m_size)
+          m_body[m_size] = other.body[m_size];
+        return *this;
+      }
+      deinitialise();
+      Container(other);
+      return *this;
+    }
 
   private:
     usInt m_capacity;
