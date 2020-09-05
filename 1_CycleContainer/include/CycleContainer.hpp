@@ -8,11 +8,27 @@ namespace CycleContainer {
 
   template <class T> class Container {
   public:
-    Container();
-    Container(std::uint64_t const capacity);
-    Container(T const & value, std::uint64_t const size);
-    Container(Container const & other);
-    ~Container();
+    Container() {
+      alloc_body(0);
+      m_size = 0;
+    }
+    Container(std::uint64_t const capacity) {
+      alloc_body(capacity);
+      m_size = 0;
+    }
+    Container(T const & value, std::uint64_t const size) {
+      alloc_body(size);
+      for (m_size = 0; m_size < size; ++m_size)
+        m_begin[m_size] = value;
+    }
+    Container(Container const & other) {
+      alloc_body(other.capacity);
+      for (m_size = 0; m_size < size; ++m_size)
+        m_begin[m_size] = other.begin[m_size];
+    }
+    ~Container() {
+      deinitialise();
+    }
     std::uint64_t get_size() const;
     std::uint64_t get_capacity() const;
     bool is_empty() const;
@@ -40,6 +56,13 @@ namespace CycleContainer {
         m_memPool = new byte[sizeof(T) * capacity];
         m_begin = reinterpret_cast<T*>(m_memPool);
       }
+    }
+    void deinitialise() {
+      clean();
+      delete[] m_memPool;
+      m_memPool = nullptr;
+      m_begin = nullptr;
+      capacity = 0;
     }
   }
 }
