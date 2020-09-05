@@ -83,7 +83,11 @@ namespace CycleContainer {
 
     void pop_back();
 
-    void clean();
+    void clean() {
+      for (; m_size > 0; --m_size)
+        m_body[realPlace(m_size)].~T();
+      m_begin = 0;
+    }
 
     void rotate_forward(std::uint64_t const distance);
 
