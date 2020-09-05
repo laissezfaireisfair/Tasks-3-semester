@@ -11,47 +11,61 @@ namespace CycleContainer {
   public:
     Container() {
       alloc_body(0);
-      m_size = 0;
+      m_begin = 0;
+      m_size  = 0;
     }
 
     Container(std::uint64_t const capacity) {
       alloc_body(capacity);
-      m_size = 0;
+      m_begin = 0;
+      m_size  = 0;
     }
 
     Container(T const & value, std::uint64_t const size) {
       alloc_body(size);
+      m_begin = 0;
       for (m_size = 0; m_size < size; ++m_size)
-        m_begin[m_size] = value;
+        m_body[m_size] = value;
     }
 
     Container(Container const & other) {
       alloc_body(other.capacity);
+      m_begin = other.begin;
       for (m_size = 0; m_size < size; ++m_size)
-        m_begin[m_size] = other.begin[m_size];
+        m_body[m_size] = other.body[m_size];
     }
 
     ~Container() {
       deinitialise();
     }
 
-    std::uint64_t get_size() const;
+    std::uint64_t get_size() const {
+      return m_size;
+    }
 
-    std::uint64_t get_capacity() const;
+    std::uint64_t get_capacity() const {
+      return m_capacity;
+    }
 
-    bool is_empty() const;
+    bool is_empty() const {
+      return m_size == 0;
+    }
 
     T& at(std::uint64_t const place) const;
 
     T& operator[](std::uint64_t const place) const;
 
-    T& front() const;
+    T& get_front() const;
 
-    T& back() const;
+    T& get_back() const;
 
     void push_back(T const & elem);
 
+    void push_front(T const & elem);
+
     void pop_front();
+
+    void pop_back();
 
     void clean();
 
@@ -64,17 +78,18 @@ namespace CycleContainer {
   private:
     usInt m_capacity;
     usInt m_size;
+    usInt m_begin;
     byte *m_memPool;
-    T    *m_begin;
+    T    *body;
 
     void alloc_body(usInt const capacity) {
       m_capacity = capacity;
       if (capacity == 0) {
         m_memPool = nullptr;
-        m_begin = nullptr;
+        m_body = nullptr;
       } else {
         m_memPool = new byte[sizeof(T) * capacity];
-        m_begin = reinterpret_cast<T*>(m_memPool);
+        m_body = reinterpret_cast<T*>(m_memPool);
       }
     }
 
@@ -82,8 +97,8 @@ namespace CycleContainer {
       clean();
       delete[] m_memPool;
       m_memPool = nullptr;
-      m_begin = nullptr;
-      capacity = 0;
+      m_body = nullptr;
+      m_capacity = 0;
     }
   }
 }
