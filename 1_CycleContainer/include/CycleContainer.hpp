@@ -4,6 +4,7 @@
 
 namespace CycleContainer {
   using usInt = std::int64_t;
+  using byte = char;
 
   template <class T> class Container {
   public:
@@ -25,5 +26,20 @@ namespace CycleContainer {
     void rotate_forward(std::uint64_t const distance);
     void rotate_back(std::uint64_t const distance);
     T& operator=(T const & other);
+  private:
+    usInt m_capacity;
+    usInt m_size;
+    byte *m_memPool;
+    T    *m_begin;
+    void alloc_body(usInt const capacity) {
+      m_capacity = capacity;
+      if (capacity == 0) {
+        m_memPool = nullptr;
+        m_begin = nullptr;
+      } else {
+        m_memPool = new byte[sizeof(T) * capacity];
+        m_begin = reinterpret_cast<T*>(m_memPool);
+      }
+    }
   }
 }
