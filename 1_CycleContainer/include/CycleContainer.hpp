@@ -51,13 +51,23 @@ namespace CycleContainer {
       return m_size == 0;
     }
 
-    T& at(std::uint64_t const place) const;
+    T& at(std::uint64_t const place) const {
+      if (place > m_size)
+        throw std::out_of_range("Try to reach non-initialised elem of buffer");
+      return m_body[realPlace(place)];
+    }
 
-    T& operator[](std::uint64_t const place) const;
+    T& operator[](std::uint64_t const place) const {
+      return at(place);
+    }
 
-    T& get_front() const;
+    T& get_front() const {
+      return at(realPlace(0));
+    }
 
-    T& get_back() const;
+    T& get_back() const {
+      return at(realPlace(m_size - 1));
+    }
 
     void push_back(T const & elem);
 
@@ -81,6 +91,10 @@ namespace CycleContainer {
     usInt m_begin;
     byte *m_memPool;
     T    *body;
+
+    usInt realPlace(usInt const place) const {
+      return (m_begin + place) % m_capaticy;
+    }
 
     void alloc_body(usInt const capacity) {
       m_capacity = capacity;
