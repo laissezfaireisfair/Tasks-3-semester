@@ -68,24 +68,40 @@ namespace CycleContainer {
     }
 
     void push_back(T const & elem) {
-      if (size == capacity)
+      if (m_size == m_capacity)
         throw std::overflow_error("Pushing to full container");
-      body[realPlace(begin + size)] = elem;
-      ++size;
+      body[realPlace(m_begin + m_size)] = elem;
+      ++m_size;
     }
 
     void push_front(T const & elem) {
-      if (size == capacity)
+      if (m_size == m_capacity)
         throw std::overflow_error("Pushing to full container");
-      usInt placeNew = (capacity + begin - 1) % capacity;
-      body[placeNew] = elem;
-      begin = placeNew;
-      ++size;
+      usInt placeNew = (m_capacity + m_begin - 1) % m_capacity;
+      m_body[placeNew] = elem;
+      m_begin = placeNew;
+      ++m_size;
     }
 
-    void pop_front();
+    void pop_front() {
+      if (is_empty())
+        throw underflow_error("Try to pop empty container");
+      m_body[m_begin].~T();
+      --size;
+      if (size == 0)
+        begin = 0;
+      else
+        begin = realPlace(++begin);
+    }
 
-    void pop_back();
+    void pop_back() {
+      if (is_empty())
+        throw underflow_error("Try to pop empty container");
+      m_body[realPlace(m_begin + size)].~T();
+      --size;
+      if (size == 0)
+        begin = 0;
+    }
 
     void clean() {
       for (; m_size > 0; --m_size)
@@ -97,14 +113,14 @@ namespace CycleContainer {
       if (m_size < m_capacity)
         throw std::logic_error("Try to rotate not fulled buffer");
       usInt positiver;
-      for (positiver = 0; positiver + begin < distance; positiver += capacity) {}
-      begin = positiver + begin - distance;
+      for (positiver = 0; positiver + m_begin < distance; positiver += m_capacity) {}
+      m_begin = positiver + m_begin - distance;
     }
 
     void rotate_back(std::uint64_t const distance) {
       if (m_size < m_capacity)
         throw std::logic_error("Try to rotate not fulled buffer");
-      begin = (begin + distance) % capacity;
+      m_begin = (m_begin + distance) % m_capacity;
     }
 
     Container<T>& operator=(Container<T> const & other)  {
