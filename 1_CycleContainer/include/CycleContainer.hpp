@@ -67,9 +67,21 @@ namespace CycleContainer {
       return at(realPlace(m_size - 1));
     }
 
-    void push_back(T const & elem);
+    void push_back(T const & elem) {
+      if (size == capacity)
+        throw std::overflow_error("Pushing to full container");
+      body[realPlace(begin + size)] = elem;
+      ++size;
+    }
 
-    void push_front(T const & elem);
+    void push_front(T const & elem) {
+      if (size == capacity)
+        throw std::overflow_error("Pushing to full container");
+      usInt placeNew = (capacity + begin - 1) % capacity;
+      body[placeNew] = elem;
+      begin = placeNew;
+      ++size;
+    }
 
     void pop_front();
 
@@ -107,8 +119,8 @@ namespace CycleContainer {
     }
 
   private:
-    usInt m_capacity;
-    usInt m_size;
+    usInt m_capacity; // Potential size of container
+    usInt m_size;     // Number of elements
     usInt m_begin;
     byte *m_memPool;
     T    *body;
