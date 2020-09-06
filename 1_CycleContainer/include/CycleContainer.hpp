@@ -30,9 +30,7 @@ namespace CycleContainer {
 
     Container(Container<T> const & other) {
       alloc_body(other.capacity);
-      m_begin = other.begin;
-      for (m_size = 0; m_size < size; ++m_size)
-        m_body[m_size] = other.body[m_size];
+      copy_body(other);
     }
 
     ~Container() {
@@ -58,20 +56,14 @@ namespace CycleContainer {
     }
 
     T& operator[](std::uint64_t const place) const {
-      if (place > m_size)
-        throw std::out_of_range("Try to reach non-initialised elem of buffer");
       return at(place);
     }
 
     T& get_front() const {
-      if (size == 0)
-        throw std::out_of_range("Try to reach elem of empty buffer");
       return at(realPlace(0));
     }
 
     T& get_back() const {
-      if (size == 0)
-        throw std::out_of_range("Try to reach elem of empty buffer");
       return at(realPlace(m_size - 1));
     }
 
@@ -96,9 +88,7 @@ namespace CycleContainer {
     Container<T>& operator=(Container<T> const & other)  {
       if (m_capacity == other.m_capacity) {
         clean();
-        m_begin = other.begin;
-        for (m_size = 0; m_size < size; ++m_size)
-          m_body[m_size] = other.body[m_size];
+        copy_body(other);
         return *this;
       }
       deinitialise();
@@ -126,6 +116,13 @@ namespace CycleContainer {
         m_memPool = new byte[sizeof(T) * capacity];
         m_body = reinterpret_cast<T*>(m_memPool);
       }
+    }
+
+    /// Needs allocated and clean this->body to work properly
+    void copy_body(Container<T> const & other) {
+      m_begin = other.begin;
+      for (m_size = 0; m_size < size; ++m_size)
+        m_body[m_size] = other.body[m_size];
     }
 
     void deinitialise() {
