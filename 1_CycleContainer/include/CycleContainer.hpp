@@ -77,13 +77,23 @@ namespace CycleContainer {
 
     void clean() {
       for (; m_size > 0; --m_size)
-        m_body[realPlace(m_size)].~T();
+        m_body[realPlace(m_size - 1)].~T();
       m_begin = 0;
     }
 
-    void rotate_forward(std::uint64_t const distance);
+    void rotate_forward(std::uint64_t const distance) {
+      if (m_size < m_capacity)
+        throw std::logic_error("Try to rotate not fulled buffer");
+      usInt positiver;
+      for (positiver = 0; positiver + begin < distance; positiver += capacity) {}
+      begin = positiver + begin - distance;
+    }
 
-    void rotate_back(std::uint64_t const distance);
+    void rotate_back(std::uint64_t const distance) {
+      if (m_size < m_capacity)
+        throw std::logic_error("Try to rotate not fulled buffer");
+      begin = (begin + distance) % capacity;
+    }
 
     Container<T>& operator=(Container<T> const & other)  {
       if (m_capacity == other.m_capacity) {
