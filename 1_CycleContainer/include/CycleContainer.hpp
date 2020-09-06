@@ -21,7 +21,7 @@ namespace CycleContainer {
       m_size  = 0;
     }
 
-    Container(T const & value, std::uint64_t const size) {
+    Container(std::uint64_t const size, T const & value) {
       alloc_body(size);
       m_begin = 0;
       for (m_size = 0; m_size < size; ++m_size)
