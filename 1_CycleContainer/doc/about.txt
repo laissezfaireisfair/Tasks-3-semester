@@ -1,0 +1,27 @@
+Has overwriting prevention.
+When copy container to larger container, does reallocation to save memory.
+Rotation works only with full buffer.
+
+Interface:
+
+Container:
+    Container()
+    Container(std::uint64_t const capacity)
+    Container(T const & value, std::uint64_t const size)
+    Container(Container<T> const & other)
+    ~Container()
+    std::uint64_t get_size() const
+    std::uint64_t get_capacity() const
+    bool is_empty() const
+    T& at(std::uint64_t const place) const
+    T& operator[](std::uint64_t const place) const
+    T& get_front() const
+    T& get_back() const
+    void push_back(T const & elem)
+    void push_front(T const & elem)
+    void pop_front()
+    void pop_back()
+    void clean()
+    void rotate_forward(std::uint64_t const distance)
+    void rotate_back(std::uint64_t const distance)
+    Container<T>& operator=(Container<T> const & other)
