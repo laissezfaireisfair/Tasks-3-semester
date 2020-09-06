@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 namespace CycleContainer {
-  using usInt = std::int64_t;
+  using usInt = std::uint64_t;
   using byte = char;
 
   template <class T> class Container {
@@ -29,7 +29,7 @@ namespace CycleContainer {
     }
 
     Container(Container<T> const & other) {
-      alloc_body(other.capacity);
+      alloc_body(other.m_capacity);
       copy_body(other);
     }
 
@@ -70,7 +70,7 @@ namespace CycleContainer {
     void push_back(T const & elem) {
       if (m_size == m_capacity)
         throw std::overflow_error("Pushing to full container");
-      body[realPlace(m_begin + m_size)] = elem;
+      m_body[realPlace(m_begin + m_size)] = elem;
       ++m_size;
     }
 
@@ -85,22 +85,22 @@ namespace CycleContainer {
 
     void pop_front() {
       if (is_empty())
-        throw underflow_error("Try to pop empty container");
+        throw std::underflow_error("Try to pop empty container");
       m_body[m_begin].~T();
-      --size;
-      if (size == 0)
-        begin = 0;
+      --m_size;
+      if (m_size == 0)
+        m_begin = 0;
       else
-        begin = realPlace(++begin);
+        m_begin = realPlace(++m_begin);
     }
 
     void pop_back() {
       if (is_empty())
-        throw underflow_error("Try to pop empty container");
-      m_body[realPlace(m_begin + size)].~T();
-      --size;
-      if (size == 0)
-        begin = 0;
+        throw std::underflow_error("Try to pop empty container");
+      m_body[realPlace(m_begin + m_size)].~T();
+      --m_size;
+      if (m_size == 0)
+        m_begin = 0;
     }
 
     void clean() {
@@ -130,7 +130,8 @@ namespace CycleContainer {
         return *this;
       }
       deinitialise();
-      Container(other);
+      alloc_body(other.m_capacity);
+      copy_body(other);
       return *this;
     }
 
@@ -139,10 +140,10 @@ namespace CycleContainer {
     usInt m_size;     // Number of elements
     usInt m_begin;
     byte *m_memPool;
-    T    *body;
+    T    *m_body;
 
     usInt realPlace(usInt const place) const {
-      return (m_begin + place) % m_capaticy;
+      return (m_begin + place) % m_capacity;
     }
 
     void alloc_body(usInt const capacity) {
@@ -158,9 +159,9 @@ namespace CycleContainer {
 
     /// Needs allocated and clean this->body to work properly
     void copy_body(Container<T> const & other) {
-      m_begin = other.begin;
-      for (m_size = 0; m_size < size; ++m_size)
-        m_body[m_size] = other.body[m_size];
+      m_begin = other.m_begin;
+      for (m_size = 0; m_size < m_size; ++m_size)
+        m_body[m_size] = other.m_body[m_size];
     }
 
     void deinitialise() {
@@ -170,5 +171,5 @@ namespace CycleContainer {
       m_body = nullptr;
       m_capacity = 0;
     }
-  }
+  };
 }
