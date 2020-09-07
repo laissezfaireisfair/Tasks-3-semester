@@ -49,21 +49,35 @@ namespace CycleContainer {
       return m_size == 0;
     }
 
-    T& at(std::uint64_t const place) const {
+    T& at(std::uint64_t const place) {
+      if (place > m_size)
+        throw std::out_of_range("Try to reach non-initialised elem of buffer");
+      return m_body[realPlace(place)];
+    }
+    T const & at(std::uint64_t const place) const {
       if (place > m_size)
         throw std::out_of_range("Try to reach non-initialised elem of buffer");
       return m_body[realPlace(place)];
     }
 
-    T& operator[](std::uint64_t const place) const {
+    T& operator[](std::uint64_t const place) {
+      return at(place);
+    }
+    T const & operator[](std::uint64_t const place) const {
       return at(place);
     }
 
-    T& get_front() const {
+    T& get_front() {
+      return at(0);
+    }
+    T const & get_front() const {
       return at(0);
     }
 
-    T& get_back() const {
+    T& get_back() {
+      return at(m_size - 1);
+    }
+    T const & get_back() const {
       return at(m_size - 1);
     }
 
