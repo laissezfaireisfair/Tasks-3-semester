@@ -15,7 +15,7 @@ namespace CycleContainer {
       m_size  = 0;
     }
 
-    Container(std::uint64_t const capacity) {
+    explicit Container(std::uint64_t const capacity) {
       alloc_body(capacity);
       m_begin = 0;
       m_size  = 0;
