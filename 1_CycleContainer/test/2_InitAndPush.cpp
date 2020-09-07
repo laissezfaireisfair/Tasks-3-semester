@@ -57,5 +57,6 @@ int main() {
   vector<int> expected = {41, 42};
   if (!check_buffer(buff2, expected))
     return 5;
+  cout << "All right. Exiting." << endl;
   return 0;
 }

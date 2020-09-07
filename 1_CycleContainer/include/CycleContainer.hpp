@@ -60,17 +60,17 @@ namespace CycleContainer {
     }
 
     T& get_front() const {
-      return at(realPlace(0));
+      return at(0);
     }
 
     T& get_back() const {
-      return at(realPlace(m_size - 1));
+      return at(m_size - 1);
     }
 
     void push_back(T const & elem) {
       if (m_size == m_capacity)
         throw std::overflow_error("Pushing to full container");
-      m_body[realPlace(m_begin + m_size)] = elem;
+      m_body[realPlace(m_size)] = elem;
       ++m_size;
     }
 

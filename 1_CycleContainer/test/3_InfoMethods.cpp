@@ -73,7 +73,7 @@ int main() {
   /// Get front & back tests:
   cout << "Pushing back value.............";
   try {
-    buffer.push_front(43);
+    buffer.push_back(43);
     cout << "OK" << endl;
   }
   catch (exception & e) {
@@ -84,16 +84,17 @@ int main() {
   if (buffer.get_back() == 43) {
     cout << "OK" << endl;
   } else {
-    cout << "FAILED" << endl << "Abort.";
+    cout << "FAILED" << endl << "Abort." << endl;
     return 6;
   }
-  cout << "Checking get_front()............";
-  if (buffer.get_back() == 42) {
+  cout << "Checking get_front()...........";
+  if (buffer.get_front() == 42) {
     cout << "OK" << endl;
   } else {
-    cout << "FAILED" << endl << "Abort.";
+    cout << "FAILED" << endl << "Abort." << endl;
     return 7;
   }
 
+  cout << "All right. Exiting." << endl;
   return 0;
 }
