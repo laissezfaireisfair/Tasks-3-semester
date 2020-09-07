@@ -24,6 +24,32 @@ bool check_buffer(Container<int> & buffer, vector<int> const & expected) {
   return true;
 }
 
+bool push_b(Container<int> & buffer, int const value) {
+  cout << "Pushing back value.............";
+  try {
+    buffer.push_back(value);
+    cout << "OK" << endl;
+  }
+  catch (exception & e) {
+    cout << "FALIED" << endl << e.what() << endl << "Abort." << endl;
+    return false;
+  }
+  return true;
+}
+
+bool push_f(Container<int> & buffer, int const value) {
+  cout << "Pushing front value............";
+  try {
+    buffer.push_front(value);
+    cout << "OK" << endl;
+  }
+  catch (exception & e) {
+    cout << "FALIED" << endl << e.what() << endl << "Abort." << endl;
+    return false;
+  }
+  return true;
+}
+
 int main() {
   cout << "Making initialised container...";
   Container<int> buffer = Container<int>(5, 42);
@@ -33,27 +59,14 @@ int main() {
 
   cout << "Making allocated container.....";
   Container<int> buff2 = Container<int>(5);
-  cout << "OK" << endl << "Pushing back value.............";
-  try {
-    buff2.push_back(42);
-    cout << "OK" << endl;
-  }
-  catch (exception & e) {
-    cout << "FALIED" << endl << e.what() << endl << "Abort." << endl;
+  cout << "OK" << endl;
+  if (!push_b(buff2, 42))
     return 2;
-  }
   if (!check_buffer(buff2, vector<int>(1, 42)))
     return 3;
 
-  cout << "Pushing front value............";
-  try {
-    buff2.push_front(41);
-    cout << "OK" << endl;
-  }
-  catch (exception & e) {
-    cout << "FALIED" << endl << e.what() << endl << "Abort." << endl;
+  if(!push_f(buff2, 41))
     return 4;
-  }
   vector<int> expected = {41, 42};
   if (!check_buffer(buff2, expected))
     return 5;
