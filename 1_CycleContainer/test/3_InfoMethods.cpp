@@ -35,7 +35,7 @@ int main() {
     cout << "FAILED" << endl << "Abort.";
     return 1;
   }
-  cout << "Pushing back value.............";
+  cout << "Pushing front value............";
   try {
     buffer.push_front(42);
     cout << "OK" << endl;
