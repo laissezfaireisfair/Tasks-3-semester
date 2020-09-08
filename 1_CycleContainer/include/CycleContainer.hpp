@@ -158,7 +158,7 @@ namespace CycleContainer {
     }
 
     bool is_linearized() const noexcept {
-      return begin == 0;
+      return m_begin == 0;
     }
 
   private:
