@@ -163,7 +163,7 @@ namespace CycleContainer {
 
     // Also linearize in realloc case (in does not really affect efficiency)
     void resize(std::uint64_t const newCapacity) {
-      if (newCapacity == m_size)
+      if (newCapacity == m_capacity)
         return;
       if (newCapacity < m_size)
         throw std::length_error("Try to non-explicit cut existing elements");
