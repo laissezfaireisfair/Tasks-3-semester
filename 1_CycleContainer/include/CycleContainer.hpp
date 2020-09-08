@@ -124,7 +124,7 @@ namespace CycleContainer {
     }
 
     void rotate_forward(std::uint64_t const distance) {
-      if (m_size < m_capacity)
+      if (!full())
         throw std::logic_error("Try to rotate not fulled buffer");
       usInt positiver;
       for (positiver = 0; positiver + m_begin < distance; positiver += m_capacity) {}
@@ -132,7 +132,7 @@ namespace CycleContainer {
     }
 
     void rotate_back(std::uint64_t const distance) {
-      if (m_size < m_capacity)
+      if (!full())
         throw std::logic_error("Try to rotate not fulled buffer");
       m_begin = (m_begin + distance) % m_capacity;
     }
@@ -147,6 +147,18 @@ namespace CycleContainer {
       alloc_body(other.m_capacity);
       copy_body(other);
       return *this;
+    }
+
+    int reserve() const noexcept {
+      return m_capacity - m_size;
+    }
+
+    bool full() const noexcept {
+      return m_capacity == m_size;
+    }
+
+    bool is_linearized() const noexcept {
+      return begin == 0;
     }
 
   private:
