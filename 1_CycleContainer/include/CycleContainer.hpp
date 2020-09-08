@@ -176,6 +176,28 @@ namespace CycleContainer {
       delete[] oldMemPool;
     }
 
+  void cut(std::uint64_t const newSize) {
+    if (newSize > m_size)
+      throw std::invalid_argument("Wrong size to cut");
+    for (;m_size > newSize; --m_size)
+      m_body[m_size - 1].~T();
+  }
+
+  void expand(std::uint64_t const newSize, T const & elem) {
+    if (newSize <= m_size)
+      throw std::logic_error("Wrong size to expand");
+    while(m_size < newSize)
+      push_back(elem);
+  }
+
+  // If can, replace with cut/expand. It may call extra constructor
+  void resize(std::uint64_t const newSize, T const & elem = T()) {
+    if (m_size < m_size)
+      expand(newSize, elem);
+    if (m_size < m_size)
+      cut(newSize);
+  }
+
   private:
     usInt m_capacity; // Potential size of container
     usInt m_size;     // Number of elements
