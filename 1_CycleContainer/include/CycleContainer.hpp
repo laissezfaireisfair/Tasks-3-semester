@@ -161,6 +161,21 @@ namespace CycleContainer {
       return m_begin == 0;
     }
 
+    // Also linearize in realloc case (in does not really affect efficiency)
+    void resize(std::uint64_t const newCapacity) {
+      if (newCapacity == m_size)
+        return;
+      if (newCapacity < m_size)
+        throw std::length_error("Try to non-explicit cut existing elements");
+      byte *oldMemPool = m_memPool;
+      T *oldBody = m_body;
+      alloc_body(newCapacity);
+      for (usInt i = 0; i < m_size; ++i)
+        m_body[i] = oldBody[realPlace(i)];
+      m_begin = 0;
+      delete[] oldMemPool;
+    }
+
   private:
     usInt m_capacity; // Potential size of container
     usInt m_size;     // Number of elements
