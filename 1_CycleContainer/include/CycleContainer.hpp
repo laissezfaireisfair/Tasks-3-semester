@@ -186,15 +186,17 @@ namespace CycleContainer {
   void expand(std::uint64_t const newSize, T const & elem) {
     if (newSize <= m_size)
       throw std::logic_error("Wrong size to expand");
+    if (newSize > m_capacity)
+      set_capacity(newSize);
     while(m_size < newSize)
       push_back(elem);
   }
 
   // If can, replace with cut/expand. It may call extra constructor
   void resize(std::uint64_t const newSize, T const & elem = T()) {
-    if (m_size < m_size)
+    if (m_size < newSize)
       expand(newSize, elem);
-    if (m_size < m_size)
+    if (m_size > newSize)
       cut(newSize);
   }
 
