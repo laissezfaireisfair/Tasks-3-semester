@@ -9,7 +9,7 @@ namespace CycleContainer {
 
   template <class T> class Container {
   public:
-    Container() {
+    Container() noexcept {
       alloc_body(0);
       m_begin = 0;
       m_size  = 0;
@@ -37,15 +37,15 @@ namespace CycleContainer {
       deinitialise();
     }
 
-    std::uint64_t get_size() const {
+    std::uint64_t get_size() const noexcept {
       return m_size;
     }
 
-    std::uint64_t get_capacity() const {
+    std::uint64_t get_capacity() const noexcept {
       return m_capacity;
     }
 
-    bool is_empty() const {
+    bool is_empty() const noexcept {
       return m_size == 0;
     }
 
@@ -156,7 +156,7 @@ namespace CycleContainer {
     byte *m_memPool;
     T    *m_body;
 
-    usInt realPlace(usInt const place) const {
+    usInt realPlace(usInt const place) const noexcept {
       return (m_begin + place) % m_capacity;
     }
 
