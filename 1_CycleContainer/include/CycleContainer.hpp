@@ -162,7 +162,7 @@ namespace CycleContainer {
     }
 
     // Also linearize in realloc case (in does not really affect efficiency)
-    void resize(std::uint64_t const newCapacity) {
+    void set_capacity(std::uint64_t const newCapacity) {
       if (newCapacity == m_capacity)
         return;
       if (newCapacity < m_size)

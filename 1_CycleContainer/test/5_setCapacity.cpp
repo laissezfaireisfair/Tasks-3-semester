@@ -21,10 +21,10 @@ bool check_buffer(Container<int> & buffer, vector<int> const & expected) {
   return true;
 }
 
-bool do_resize(Container<int> & buffer, uint64_t const newCapacity) {
+bool change_capacity(Container<int> & buffer, uint64_t const newCapacity) {
   cout << "Resizing..........";
   try {
-    buffer.resize(newCapacity);
+    buffer.set_capacity(newCapacity);
     cout << "OK" << endl;
   }
   catch(exception & e) {
@@ -51,7 +51,7 @@ int main() {
   cout << "OK" << endl;
 
   cout << "---Increase check---"  << endl;
-  if (!do_resize(buffer, 6))
+  if (!change_capacity(buffer, 6))
     return 1;
   if (!check_capacity(buffer, 6))
     return 2;
@@ -59,7 +59,7 @@ int main() {
     return 3;
 
   cout << "---Decrease check---"  << endl;
-  if (!do_resize(buffer, 5))
+  if (!change_capacity(buffer, 5))
     return 4;
   if (!check_capacity(buffer, 5))
     return 5;
