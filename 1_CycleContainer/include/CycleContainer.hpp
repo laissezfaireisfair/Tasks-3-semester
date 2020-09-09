@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 namespace CycleContainer {
-  using usInt = std::uint64_t;
+  using size_t = std::size_t;
   using byte = char;
 
   template <class T> class Container {
@@ -15,13 +15,13 @@ namespace CycleContainer {
       m_size  = 0;
     }
 
-    explicit Container(std::uint64_t const capacity) {
+    explicit Container(size_t const capacity) {
       alloc_body(capacity);
       m_begin = 0;
       m_size  = 0;
     }
 
-    Container(std::uint64_t const size, T const & value) {
+    Container(size_t const size, T const & value) {
       alloc_body(size);
       m_begin = 0;
       for (m_size = 0; m_size < size; ++m_size)
@@ -37,11 +37,11 @@ namespace CycleContainer {
       deinitialise();
     }
 
-    std::uint64_t get_size() const noexcept {
+    size_t get_size() const noexcept {
       return m_size;
     }
 
-    std::uint64_t get_capacity() const noexcept {
+    size_t get_capacity() const noexcept {
       return m_capacity;
     }
 
@@ -49,21 +49,21 @@ namespace CycleContainer {
       return m_size == 0;
     }
 
-    T& at(std::uint64_t const place) {
+    T& at(size_t const place) {
       if (place > m_size)
         throw std::out_of_range("Try to reach non-initialised elem of buffer");
       return m_body[realPlace(place)];
     }
-    T const & at(std::uint64_t const place) const {
+    T const & at(size_t const place) const {
       if (place > m_size)
         throw std::out_of_range("Try to reach non-initialised elem of buffer");
       return m_body[realPlace(place)];
     }
 
-    T& operator[](std::uint64_t const place) {
+    T& operator[](size_t const place) {
       return at(place);
     }
-    T const & operator[](std::uint64_t const place) const {
+    T const & operator[](size_t const place) const {
       return at(place);
     }
 
@@ -91,7 +91,7 @@ namespace CycleContainer {
     void push_front(T const & elem) {
       if (m_size == m_capacity)
         throw std::overflow_error("Pushing to full container");
-      usInt placeNew = (m_capacity + m_begin - 1) % m_capacity;
+      size_t placeNew = (m_capacity + m_begin - 1) % m_capacity;
       m_body[placeNew] = elem;
       m_begin = placeNew;
       ++m_size;
@@ -123,15 +123,15 @@ namespace CycleContainer {
       m_begin = 0;
     }
 
-    void rotate_forward(std::uint64_t const distance) {
+    void rotate_forward(size_t const distance) {
       if (!full())
         throw std::logic_error("Try to rotate not fulled buffer");
-      usInt positiver;
+      size_t positiver;
       for (positiver = 0; positiver + m_begin < distance; positiver += m_capacity) {}
       m_begin = positiver + m_begin - distance;
     }
 
-    void rotate_back(std::uint64_t const distance) {
+    void rotate_back(size_t const distance) {
       if (!full())
         throw std::logic_error("Try to rotate not fulled buffer");
       m_begin = (m_begin + distance) % m_capacity;
@@ -162,7 +162,7 @@ namespace CycleContainer {
     }
 
     // Also linearize in realloc case (in does not really affect efficiency)
-    void set_capacity(std::uint64_t const newCapacity) {
+    void set_capacity(size_t const newCapacity) {
       if (newCapacity == m_capacity)
         return;
       if (newCapacity < m_size)
@@ -170,20 +170,20 @@ namespace CycleContainer {
       byte *oldMemPool = m_memPool;
       T *oldBody = m_body;
       alloc_body(newCapacity);
-      for (usInt i = 0; i < m_size; ++i)
+      for (size_t i = 0; i < m_size; ++i)
         m_body[i] = oldBody[realPlace(i)];
       m_begin = 0;
       delete[] oldMemPool;
     }
 
-  void cut(std::uint64_t const newSize) {
+  void cut(size_t const newSize) {
     if (newSize > m_size)
       throw std::invalid_argument("Wrong size to cut");
     for (;m_size > newSize; --m_size)
       m_body[m_size - 1].~T();
   }
 
-  void expand(std::uint64_t const newSize, T const & elem) {
+  void expand(size_t const newSize, T const & elem) {
     if (newSize <= m_size)
       throw std::logic_error("Wrong size to expand");
     if (newSize > m_capacity)
@@ -193,7 +193,7 @@ namespace CycleContainer {
   }
 
   // If can, replace with cut/expand. It may call extra constructor
-  void resize(std::uint64_t const newSize, T const & elem = T()) {
+  void resize(size_t const newSize, T const & elem = T()) {
     if (m_size < newSize)
       expand(newSize, elem);
     if (m_size > newSize)
@@ -201,17 +201,17 @@ namespace CycleContainer {
   }
 
   private:
-    usInt m_capacity; // Potential size of container
-    usInt m_size;     // Number of elements
-    usInt m_begin;
+    size_t m_capacity; // Potential size of container
+    size_t m_size;     // Number of elements
+    size_t m_begin;
     byte *m_memPool;
     T    *m_body;
 
-    usInt realPlace(usInt const place) const noexcept {
+    size_t realPlace(size_t const place) const noexcept {
       return (m_begin + place) % m_capacity;
     }
 
-    void alloc_body(usInt const capacity) {
+    void alloc_body(size_t const capacity) {
       m_capacity = capacity;
       if (capacity == 0) {
         m_memPool = nullptr;
