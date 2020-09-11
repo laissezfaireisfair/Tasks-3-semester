@@ -225,7 +225,7 @@ namespace CycleContainer {
     /// Needs allocated and clean this->body to work properly
     void copy_body(Container<T> const & other) {
       m_begin = other.m_begin;
-      for (m_size = 0; m_size < m_size; ++m_size)
+      for (m_size = 0; m_size < other.m_size; ++m_size)
         m_body[m_size] = other.m_body[m_size];
     }
 
