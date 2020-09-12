@@ -220,7 +220,7 @@ namespace CycleContainer {
       throw std::invalid_argument("Wrong insert position");
     if (place != m_size) { // Need to move tail forward
       for (size_t i = 0; i < m_size - place; ++i) {
-        size_t const elemPos = realPlace(m_size - i);
+        size_t const elemPos = realPlace(m_size - i - 1);
         m_body[(elemPos + 1) % m_capacity] = m_body[elemPos];
       }
     }
@@ -238,7 +238,7 @@ namespace CycleContainer {
       m_body[i].~T();
     if (last < m_size) // Need to move tail back
       for (size_t i = 0; i < m_size - last; ++i)
-        m_body[realPlace(i - 1)] = m_body[realPlace(i)];
+        m_body[realPlace(first + i)] = m_body[realPlace(first + i + 1)];
     m_size -= last - first;
   }
 
