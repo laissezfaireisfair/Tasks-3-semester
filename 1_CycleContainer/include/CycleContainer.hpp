@@ -243,7 +243,7 @@ namespace CycleContainer {
   }
 
   bool operator==(Container<T> const & other) const {
-    if (m_size != other.size)
+    if (m_size != other.m_size)
       return false;
     for (size_t i = 0; i < m_size; ++i)
       if (at(i) != other.at(i))
