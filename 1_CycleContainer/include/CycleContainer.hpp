@@ -200,6 +200,19 @@ namespace CycleContainer {
       cut(newSize);
   }
 
+  T* linearize() const {
+    if (is_linearized())
+      return m_body;
+    byte *oldMemPool = m_memPool;
+    T *oldBody = m_body;
+    alloc_body(m_capacity);
+    for (size_t i = 0; i < m_size; ++i)
+      m_body[i] = oldBody[realPlace(i)];
+    m_begin = 0;
+    delete[] oldMemPool;
+    return m_body;
+  }
+
   private:
     size_t m_capacity; // Potential size of container
     size_t m_size;     // Number of elements
