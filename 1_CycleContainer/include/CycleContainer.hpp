@@ -157,7 +157,7 @@ namespace CycleContainer {
       return m_capacity == m_size;
     }
 
-    bool is_linearized() const noexcept {
+    bool is_linear() const noexcept {
       return m_begin == 0;
     }
 
@@ -200,8 +200,8 @@ namespace CycleContainer {
       cut(newSize);
   }
 
-  T* linearize() const {
-    if (is_linearized())
+  T* linearize() {
+    if (is_linear())
       return m_body;
     byte *oldMemPool = m_memPool;
     T *oldBody = m_body;
