@@ -213,6 +213,35 @@ namespace CycleContainer {
     return m_body;
   }
 
+  void insert(size_t const place, T const & elem) {
+    if (m_size == m_capacity)
+      throw std::overflow_error("Try to insert to full buffer");
+    if (place > m_size)
+      throw std::invalid_argument("Wrong insert position");
+    if (place != m_size) { // Need to move tail forward
+      for (size_t i = 0; i < m_size - place; ++i) {
+        size_t const elemPos = realPlace(m_size - i);
+        m_body[(elemPos + 1) % m_capacity] = m_body[elemPos];
+      }
+    }
+    m_body[realPlace(place)] = elem;
+    ++m_size;
+  }
+
+  /// [first, last), dont do anyting in case first == last
+  void erase(size_t const first, size_t const last) {
+    if (first >= m_size || last > m_size)
+      throw std::length_error("Try to erase after end");
+    if (first > last)
+      throw std::invalid_argument("Erasing [first, last), first > last");
+    for (size_t i = first; i < last; ++i)
+      m_body[i].~T();
+    if (last < m_size) // Need to move tail back
+      for (size_t i = 0; i < m_size - last; ++i)
+        m_body[realPlace(i - 1)] = m_body[realPlace(i)];
+    m_size -= last - first;
+  }
+
   private:
     size_t m_capacity; // Potential size of container
     size_t m_size;     // Number of elements
