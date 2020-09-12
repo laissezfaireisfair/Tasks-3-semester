@@ -242,6 +242,19 @@ namespace CycleContainer {
     m_size -= last - first;
   }
 
+  bool operator==(Container<T> const & other) const {
+    if (m_size != other.size)
+      return false;
+    for (size_t i = 0; i < m_size; ++i)
+      if (at(i) != other.at(i))
+        return false;
+    return true;
+  }
+
+  bool operator!=(Container<T> const & other) const {
+    return !(*this == other);
+  }
+
   private:
     size_t m_capacity; // Potential size of container
     size_t m_size;     // Number of elements
