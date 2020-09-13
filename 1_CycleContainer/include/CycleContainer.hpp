@@ -244,6 +244,21 @@ namespace CycleContainer {
       ++m_size;
     }
 
+    void insert(size_t const place, T && elem) {
+      if (m_size == m_capacity)
+        throw std::overflow_error("Try to insert to full buffer");
+      if (place > m_size)
+        throw std::invalid_argument("Wrong insert position");
+      if (place != m_size) { // Need to move tail forward
+        for (size_t i = 0; i < m_size - place; ++i) {
+          size_t const elemPos = realPlace(m_size - i - 1);
+          m_body[(elemPos + 1) % m_capacity] = std::move(m_body[elemPos]);
+        }
+      }
+      m_body[realPlace(place)] = std::move(elem);
+      ++m_size;
+    }
+
     /// [first, last), dont do anyting in case first == last
     void erase(size_t const first, size_t const last) {
       if (first >= m_size || last > m_size)
