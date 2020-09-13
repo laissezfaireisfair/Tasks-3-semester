@@ -192,84 +192,84 @@ namespace CycleContainer {
       delete[] oldMemPool;
     }
 
-  void cut(size_t const newSize) {
-    if (newSize > m_size)
-      throw std::invalid_argument("Wrong size to cut");
-    for (;m_size > newSize; --m_size)
-      m_body[m_size - 1].~T();
-  }
-
-  void expand(size_t const newSize, T const & elem) {
-    if (newSize <= m_size)
-      throw std::logic_error("Wrong size to expand");
-    if (newSize > m_capacity)
-      set_capacity(newSize);
-    while(m_size < newSize)
-      push_back(elem);
-  }
-
-  // If can, replace with cut/expand. It may call extra constructor
-  void resize(size_t const newSize, T const & elem = T()) {
-    if (m_size < newSize)
-      expand(newSize, elem);
-    if (m_size > newSize)
-      cut(newSize);
-  }
-
-  T* linearize() {
-    if (is_linear())
-      return m_body;
-    byte *oldMemPool = m_memPool;
-    T *oldBody = m_body;
-    alloc_body(m_capacity);
-    for (size_t i = 0; i < m_size; ++i)
-      m_body[i] = oldBody[realPlace(i)];
-    m_begin = 0;
-    delete[] oldMemPool;
-    return m_body;
-  }
-
-  void insert(size_t const place, T const & elem) {
-    if (m_size == m_capacity)
-      throw std::overflow_error("Try to insert to full buffer");
-    if (place > m_size)
-      throw std::invalid_argument("Wrong insert position");
-    if (place != m_size) { // Need to move tail forward
-      for (size_t i = 0; i < m_size - place; ++i) {
-        size_t const elemPos = realPlace(m_size - i - 1);
-        m_body[(elemPos + 1) % m_capacity] = m_body[elemPos];
-      }
+    void cut(size_t const newSize) {
+      if (newSize > m_size)
+        throw std::invalid_argument("Wrong size to cut");
+      for (;m_size > newSize; --m_size)
+        m_body[m_size - 1].~T();
     }
-    m_body[realPlace(place)] = elem;
-    ++m_size;
-  }
 
-  /// [first, last), dont do anyting in case first == last
-  void erase(size_t const first, size_t const last) {
-    if (first >= m_size || last > m_size)
-      throw std::length_error("Try to erase after end");
-    if (first > last)
-      throw std::invalid_argument("Erasing [first, last), first > last");
-    for (size_t i = first; i < last; ++i)
-      m_body[i].~T();
-    if (last < m_size) // Need to move tail back
-      for (size_t i = 0; i < m_size - last; ++i)
-        m_body[realPlace(first + i)] = m_body[realPlace(first + i + 1)];
-    m_size -= last - first;
-  }
+    void expand(size_t const newSize, T const & elem) {
+      if (newSize <= m_size)
+        throw std::logic_error("Wrong size to expand");
+      if (newSize > m_capacity)
+        set_capacity(newSize);
+      while(m_size < newSize)
+        push_back(elem);
+    }
 
-  bool operator==(Container<T> const & other) const {
-    if (m_size != other.m_size)
-      return false;
-    for (size_t i = 0; i < m_size; ++i)
-      if (at(i) != other.at(i))
+    // If can, replace with cut/expand. It may call extra constructor
+    void resize(size_t const newSize, T const & elem = T()) {
+      if (m_size < newSize)
+        expand(newSize, elem);
+      if (m_size > newSize)
+        cut(newSize);
+    }
+
+    T* linearize() {
+      if (is_linear())
+        return m_body;
+      byte *oldMemPool = m_memPool;
+      T *oldBody = m_body;
+      alloc_body(m_capacity);
+      for (size_t i = 0; i < m_size; ++i)
+        m_body[i] = oldBody[realPlace(i)];
+      m_begin = 0;
+      delete[] oldMemPool;
+      return m_body;
+    }
+
+    void insert(size_t const place, T const & elem) {
+      if (m_size == m_capacity)
+        throw std::overflow_error("Try to insert to full buffer");
+      if (place > m_size)
+        throw std::invalid_argument("Wrong insert position");
+      if (place != m_size) { // Need to move tail forward
+        for (size_t i = 0; i < m_size - place; ++i) {
+          size_t const elemPos = realPlace(m_size - i - 1);
+          m_body[(elemPos + 1) % m_capacity] = m_body[elemPos];
+        }
+      }
+      m_body[realPlace(place)] = elem;
+      ++m_size;
+    }
+
+    /// [first, last), dont do anyting in case first == last
+    void erase(size_t const first, size_t const last) {
+      if (first >= m_size || last > m_size)
+        throw std::length_error("Try to erase after end");
+      if (first > last)
+        throw std::invalid_argument("Erasing [first, last), first > last");
+      for (size_t i = first; i < last; ++i)
+        m_body[i].~T();
+      if (last < m_size) // Need to move tail back
+        for (size_t i = 0; i < m_size - last; ++i)
+          m_body[realPlace(first + i)] = m_body[realPlace(first + i + 1)];
+      m_size -= last - first;
+    }
+
+    bool operator==(Container<T> const & other) const {
+      if (m_size != other.m_size)
         return false;
-    return true;
-  }
+      for (size_t i = 0; i < m_size; ++i)
+        if (at(i) != other.at(i))
+          return false;
+      return true;
+    }
 
-  bool operator!=(Container<T> const & other) const {
-    return !(*this == other);
-  }
+    bool operator!=(Container<T> const & other) const {
+      return !(*this == other);
+    }
 
   private:
     size_t m_capacity; // Potential size of container
