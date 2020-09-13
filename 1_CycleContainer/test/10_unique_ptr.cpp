@@ -26,12 +26,16 @@ bool check_buffer(Container<unique_ptr<int>> const & buffer, vector<int> const &
 }
 
 int main() {
-  Container<unique_ptr<int>> ptrs(1);
-  unique_ptr<int> num = make_unique<int>();
-  *num = 54;
-  ptrs.push_back(move(num));
-  if (!check_buffer(ptrs, vector<int>(1, 54)))
-    return 1;  
+  Container<unique_ptr<int>> buffer(5);
+  unique_ptr<int> ptr = make_unique<int>();
+  *ptr = 54;
+  buffer.push_back(move(ptr));
+  for (size_t i = 1; i < 5; ++i) {
+    buffer.push_back(make_unique<int>());
+    *buffer[buffer.get_size() - 1] = 54;
+  }
+  if (!check_buffer(buffer, vector<int>(5, 54)))
+    return 1;
 
   cout << "All right. Exiting." << endl;
   return 0;
