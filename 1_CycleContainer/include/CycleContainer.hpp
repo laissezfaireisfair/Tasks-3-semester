@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <stdexcept>
+#include <memory>
 
 namespace CycleContainer {
   using size_t = std::size_t;
@@ -98,7 +99,7 @@ namespace CycleContainer {
     void push_front(T const & elem) {
       if (m_size == m_capacity)
         throw std::overflow_error("Pushing to full container");
-      size_t placeNew = (m_capacity + m_begin - 1) % m_capacity;
+      size_t const placeNew = realPlace(m_capacity - 1);
       m_body[placeNew] = elem;
       m_begin = placeNew;
       ++m_size;
@@ -106,7 +107,7 @@ namespace CycleContainer {
     void push_front(T && elem) {
       if (m_size == m_capacity)
         throw std::overflow_error("Pushing to full container");
-      size_t placeNew = (m_capacity + m_begin - 1) % m_capacity;
+      size_t const placeNew = realPlace(m_capacity - 1);
       m_body[placeNew] = std::move(elem);
       m_begin = placeNew;
       ++m_size;
@@ -116,18 +117,18 @@ namespace CycleContainer {
     void pop_front() {
       if (is_empty())
         throw std::underflow_error("Try to pop empty container");
-      m_body[m_begin].~T();
+      at(0).~T();
       --m_size;
       if (m_size == 0)
         m_begin = 0;
       else
-        m_begin = realPlace(++m_begin);
+        m_begin = realPlace(m_begin + 1);
     }
 
     void pop_back() {
       if (is_empty())
         throw std::underflow_error("Try to pop empty container");
-      m_body[realPlace(m_begin + m_size)].~T();
+      at(m_size - 1).~T();
       --m_size;
       if (m_size == 0)
         m_begin = 0;
@@ -135,7 +136,7 @@ namespace CycleContainer {
 
     void clean() {
       for (; m_size > 0; --m_size)
-        m_body[realPlace(m_size - 1)].~T();
+        at(m_size - 1).~T();
       m_begin = 0;
     }
 
@@ -150,7 +151,7 @@ namespace CycleContainer {
     void rotate_back(size_t const distance) {
       if (!full())
         throw std::logic_error("Try to rotate not fulled buffer");
-      m_begin = (m_begin + distance) % m_capacity;
+      m_begin = realPlace(distance);
     }
 
     Container<T>& operator=(Container<T> const & other)  {
@@ -196,7 +197,7 @@ namespace CycleContainer {
       if (newSize > m_size)
         throw std::invalid_argument("Wrong size to cut");
       for (;m_size > newSize; --m_size)
-        m_body[m_size - 1].~T();
+        at(m_size - 1).~T();
     }
 
     void expand(size_t const newSize, T const & elem) {
@@ -287,18 +288,10 @@ namespace CycleContainer {
     }
 
     void swap(Container<T> & other) noexcept {
-      byte * const oldMemPool = m_memPool;
-      T * const oldBody = m_body;
-      size_t const oldSize = m_size;
-      size_t const oldCapacity = m_capacity;
-      m_memPool = other.m_memPool;
-      m_body = other.m_body;
-      m_size = other.m_size;
-      m_capacity = other.m_capacity;
-      other.m_memPool = oldMemPool;
-      other.m_body = oldBody;
-      other.m_size = oldSize;
-      other.m_capacity = oldCapacity;
+      swap(m_memPool, other.m_memPool);
+      swap(m_capacity, other.m_capacity);
+      swap(m_begin, other.m_begin);
+      swap(m_size, other.m_size);
     }
 
   private:
@@ -310,6 +303,14 @@ namespace CycleContainer {
 
     size_t realPlace(size_t const place) const noexcept {
       return (m_begin + place) % m_capacity;
+    }
+
+    // Do not use with smth uncopiable
+    // Calls destructor of left copy
+    template <class D> void swap(D & left, D & right) const {
+      D const temp = left;
+      left = right;
+      right = left;
     }
 
     void alloc_body(size_t const capacity) {
