@@ -187,8 +187,13 @@ namespace CycleContainer {
       byte *oldMemPool = m_memPool;
       T *oldBody = m_body;
       alloc_body(newCapacity);
-      for (size_t i = 0; i < m_size; ++i)
-        m_body[i] = oldBody[realPlace(i)];
+      if constexpr (std::is_copy_constructible<T>::value) {
+        for (size_t i = 0; i < m_size; ++i)
+          m_body[i] = oldBody[realPlace(i)];
+      } else {
+        for (size_t i = 0; i < m_size; ++i)
+          m_body[i] = std::move(oldBody[realPlace(i)]);
+      }
       m_begin = 0;
       delete[] oldMemPool;
     }
@@ -223,8 +228,13 @@ namespace CycleContainer {
       byte *oldMemPool = m_memPool;
       T *oldBody = m_body;
       alloc_body(m_capacity);
-      for (size_t i = 0; i < m_size; ++i)
-        m_body[i] = oldBody[realPlace(i)];
+      if constexpr (std::is_copy_constructible<T>::value) {
+        for (size_t i = 0; i < m_size; ++i)
+          m_body[i] = oldBody[realPlace(i)];
+      } else {
+        for (size_t i = 0; i < m_size; ++i)
+          m_body[i] = std::move(oldBody[realPlace(i)]);
+      }
       m_begin = 0;
       delete[] oldMemPool;
       return m_body;

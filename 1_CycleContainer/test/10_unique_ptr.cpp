@@ -38,6 +38,10 @@ int main() {
   if (!check_buffer(buffer, vector<int>(5, 54)))
     return 1;
 
+  buffer.pop_front();
+  buffer.linearize();
+  buffer.set_capacity(10);
+
   cout << "All right. Exiting." << endl;
   return 0;
 }

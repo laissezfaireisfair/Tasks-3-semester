@@ -4,5 +4,3 @@ List of methods unsuitable for unique_ptr:
 	Container<T>& operator=(Container<T> const & other)
 	void expand(size_t const newSize, T const & elem)
 	void resize(size_t const newSize, T const & elem = T())
-	void set_capacity(size_t const newCapacity)
-	T* linearize()

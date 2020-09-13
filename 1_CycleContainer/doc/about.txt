@@ -3,7 +3,7 @@ When copy container to larger container, does reallocation to save memory.
 Rotation works only with full buffer.
 
 Tests was builded as:
-g++ -Wall -Wextra -pedantic -std=c++14 -I include/ *test file*
+g++ -Wall -Wextra -pedantic -std=c++17 -I include/ *test file*
 
 
 Interface:

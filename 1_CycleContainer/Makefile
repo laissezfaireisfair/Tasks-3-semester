@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -Wextra -Werror -pedantic -std=c++14 -I include
+CFLAGS = -Wall -Wextra -Werror -pedantic -std=c++17 -I include
 
 
 
