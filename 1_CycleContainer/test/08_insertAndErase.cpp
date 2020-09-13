@@ -15,7 +15,7 @@ bool check_buffer(Container<int> & buffer, vector<int> const & expected) {
 }
 
 bool insert(Container<int> & buffer, size_t const place, int const elem) {
-  cout << "Inserting...........";
+  cout << "Inserting.......................";
   try {
     buffer.insert(place, elem);
     cout << "OK" << endl;
@@ -28,7 +28,7 @@ bool insert(Container<int> & buffer, size_t const place, int const elem) {
 }
 
 bool erase(Container<int> & buffer, size_t const first, size_t const last) {
-  cout << "Erasing.............";
+  cout << "Erasing.........................";
   try {
     buffer.erase(first, last);
     cout << "OK" << endl;
@@ -41,7 +41,7 @@ bool erase(Container<int> & buffer, size_t const first, size_t const last) {
 }
 
 bool reserve(Container<int> & buffer, size_t const newCapacity) {
-  cout << "Reserving...........";
+  cout << "Reserving.......................";
   try {
     buffer.set_capacity (newCapacity);
     cout << "OK" << endl;
@@ -54,7 +54,8 @@ bool reserve(Container<int> & buffer, size_t const newCapacity) {
 }
 
 int main() {
-  cout << "Making container....";
+  cout << "------INSERT AND ERASE TEST-------" << endl;
+  cout << "Making buffer...................";
   Container<int> buffer = Container<int>(5, 42);
   cout << "OK" << endl;
   vector<int> expected(5, 42);
@@ -65,7 +66,7 @@ int main() {
   if (!insert(buffer, 1, 54))
     return 2;
   expected.insert(expected.begin() + 1, 54);
-  cout << "Checking insert.....";
+  cout << "Checking insert.................";
   if (check_buffer(buffer, expected)) {
     cout << "OK" << endl;
   } else {
@@ -76,7 +77,7 @@ int main() {
   if (!erase(buffer, 2, 4))
     return 4;
   expected.erase(expected.begin() + 2, expected.begin() + 4);
-  cout << "Checking erase......";
+  cout << "Checking erase..................";
   if (check_buffer(buffer, expected)) {
     cout << "OK" << endl;
   } else {

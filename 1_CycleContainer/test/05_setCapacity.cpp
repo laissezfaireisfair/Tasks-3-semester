@@ -6,7 +6,7 @@ using namespace std;
 using namespace CycleContainer;
 
 bool check_buffer(Container<int> & buffer, vector<int> const & expected) {
-  cout << "Checking buffer...";
+  cout << "Checking buffer.................";
   if (buffer.get_size() != expected.size()) {
     cout << "FAILED" << endl << "Abort." << endl;
     return false;
@@ -22,7 +22,7 @@ bool check_buffer(Container<int> & buffer, vector<int> const & expected) {
 }
 
 bool change_capacity(Container<int> & buffer, uint64_t const newCapacity) {
-  cout << "Resizing..........";
+  cout << "Resizing........................";
   try {
     buffer.set_capacity(newCapacity);
     cout << "OK" << endl;
@@ -35,7 +35,7 @@ bool change_capacity(Container<int> & buffer, uint64_t const newCapacity) {
 }
 
 bool check_capacity(Container<int> const & buffer, unsigned int const expected) {
-  cout << "Checking capacity.";
+  cout << "Checking capacity...............";
   if (buffer.get_capacity() == expected) {
     cout << "OK" << endl;
   } else {
@@ -46,11 +46,12 @@ bool check_capacity(Container<int> const & buffer, unsigned int const expected) 
 }
 
 int main() {
-  cout << "Making buffer.....";
+  cout << "--------SET CAPACITY TEST---------" << endl;
+  cout << "Making buffer...................";
   Container<int> buffer = Container<int>(5, 42);
   cout << "OK" << endl;
 
-  cout << "---Increase check---"  << endl;
+  cout << "----------Increase check----------"  << endl;
   if (!change_capacity(buffer, 6))
     return 1;
   if (!check_capacity(buffer, 6))
@@ -58,7 +59,7 @@ int main() {
   if (!check_buffer(buffer, vector<int>(5, 42)))
     return 3;
 
-  cout << "---Decrease check---"  << endl;
+  cout << "----------Decrease check----------"  << endl;
   if (!change_capacity(buffer, 5))
     return 4;
   if (!check_capacity(buffer, 5))

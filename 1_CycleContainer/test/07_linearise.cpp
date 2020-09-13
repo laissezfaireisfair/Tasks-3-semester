@@ -6,7 +6,7 @@ using namespace std;
 using namespace CycleContainer;
 
 bool check_linearity(Container<int> const & buffer, bool const expected) {
-  cout << "Checking linearity..";
+  cout << "Checking linearity..............";
   if (buffer.is_linear() == expected) {
     cout << "OK" << endl;
   } else {
@@ -17,7 +17,7 @@ bool check_linearity(Container<int> const & buffer, bool const expected) {
 }
 
 bool pop_f(Container<int> & buffer) {
-  cout << "Poping front..ю.....";
+  cout << "Poping front....................";
   try {
     buffer.pop_front();
     cout << "OK" << endl;
@@ -30,7 +30,7 @@ bool pop_f(Container<int> & buffer) {
 }
 
 bool linearise(Container<int> & buffer)  {
-  cout << "Linearising.........";
+  cout << "Linearising.....................";
   try {
     buffer.linearize();
     cout << "OK" << endl;
@@ -43,7 +43,8 @@ bool linearise(Container<int> & buffer)  {
 }
 
 int main() {
-  cout << "Making buffer.......";
+  cout << "----------LINEARIZE TEST----------" << endl;
+  cout << "Making buffer...................";
   Container<int> buffer = Container<int>(5, 42);
   cout << "OK" << endl;
 

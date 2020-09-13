@@ -6,7 +6,7 @@ using namespace std;
 using namespace CycleContainer;
 
 bool push_b(Container<int> & buffer, int const value) {
-  cout << "Pushing back value.............";
+  cout << "Pushing back value..............";
   try {
     buffer.push_back(value);
     cout << "OK" << endl;
@@ -19,7 +19,7 @@ bool push_b(Container<int> & buffer, int const value) {
 }
 
 bool push_f(Container<int> & buffer, int const value) {
-  cout << "Pushing front value............";
+  cout << "Pushing front value.............";
   try {
     buffer.push_front(value);
     cout << "OK" << endl;
@@ -32,7 +32,7 @@ bool push_f(Container<int> & buffer, int const value) {
 }
 
 bool check_empty(Container<int> const & buffer, bool const expected) {
-  cout << "Checking empty.................";
+  cout << "Checking empty..................";
   if (buffer.is_empty() == expected) {
     cout << "OK" << endl;
   } else {
@@ -43,7 +43,7 @@ bool check_empty(Container<int> const & buffer, bool const expected) {
 }
 
 bool check_size(Container<int> const & buffer, unsigned int const expected) {
-  cout << "Checking size..................";
+  cout << "Checking size...................";
   if (buffer.get_size() == expected) {
     cout << "OK" << endl;
   } else {
@@ -54,7 +54,7 @@ bool check_size(Container<int> const & buffer, unsigned int const expected) {
 }
 
 bool check_capacity(Container<int> const & buffer, unsigned int const expected) {
-  cout << "Checking capacity..............";
+  cout << "Checking capacity...............";
   if (buffer.get_capacity() == expected) {
     cout << "OK" << endl;
   } else {
@@ -65,7 +65,7 @@ bool check_capacity(Container<int> const & buffer, unsigned int const expected) 
 }
 
 bool check_back(Container<int> const & buffer, int const expected) {
-  cout << "Checking back..................";
+  cout << "Checking back...................";
   if (buffer.get_back() == expected) {
     cout << "OK" << endl;
   } else {
@@ -76,7 +76,7 @@ bool check_back(Container<int> const & buffer, int const expected) {
 }
 
 bool check_front(Container<int> const & buffer, int const expected) {
-  cout << "Checking front.................";
+  cout << "Checking front..................";
   if (buffer.get_front() == expected) {
     cout << "OK" << endl;
   } else {
@@ -87,8 +87,8 @@ bool check_front(Container<int> const & buffer, int const expected) {
 }
 
 int main() {
-  /// Empty tests:
-  cout << "Making allocated container.....";
+  cout << "--------INFO METHODS TEST---------" << endl;
+  cout << "Making allocated container......";
   Container<int> buffer = Container<int>(5);
   cout << "OK" << endl;
 

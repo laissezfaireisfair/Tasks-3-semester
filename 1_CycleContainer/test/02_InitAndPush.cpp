@@ -6,14 +6,14 @@ using namespace std;
 using namespace CycleContainer;
 
 bool check_buffer(Container<int> & buffer, vector<int> const & expected) {
-  cout << "Checking size..................";
+  cout << "Checking size...................";
   if (buffer.get_size() == expected.size()) {
     cout << "OK" << endl;
   } else {
     cout << "FAILED" << endl << "Abort." << endl;
     return false;
   }
-  cout << "Checking values in container...";
+  cout << "Checking values in container....";
   for (uint64_t i = 0; i < expected.size(); ++i) {
     if (buffer[i] != expected[i]) {
       cout << "FAILED" << endl << "Abort." << endl;
@@ -25,7 +25,7 @@ bool check_buffer(Container<int> & buffer, vector<int> const & expected) {
 }
 
 bool push_b(Container<int> & buffer, int const value) {
-  cout << "Pushing back value.............";
+  cout << "Pushing back value..............";
   try {
     buffer.push_back(value);
     cout << "OK" << endl;
@@ -38,7 +38,7 @@ bool push_b(Container<int> & buffer, int const value) {
 }
 
 bool push_f(Container<int> & buffer, int const value) {
-  cout << "Pushing front value............";
+  cout << "Pushing front value.............";
   try {
     buffer.push_front(value);
     cout << "OK" << endl;
@@ -51,13 +51,14 @@ bool push_f(Container<int> & buffer, int const value) {
 }
 
 int main() {
-  cout << "Making initialised container...";
+  cout << "--------INIT AND PUSH TEST--------" << endl;
+  cout << "Making initialised container....";
   Container<int> buffer = Container<int>(5, 42);
   cout << "OK" << endl;
   if (!check_buffer(buffer, vector<int>(5, 42)))
     return 1;
 
-  cout << "Making allocated container.....";
+  cout << "Making allocated container......";
   Container<int> buff2 = Container<int>(5);
   cout << "OK" << endl;
   if (!push_b(buff2, 42))

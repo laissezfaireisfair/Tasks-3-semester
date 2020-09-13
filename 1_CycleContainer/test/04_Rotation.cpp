@@ -6,7 +6,7 @@ using namespace std;
 using namespace CycleContainer;
 
 bool check_buffer(Container<int> & buffer, vector<int> const & expected) {
-  cout << "Checking values................";
+  cout << "Checking values.................";
   if (buffer.get_size() != expected.size()) {
     cout << "FAILED" << endl << "Abort." << endl;
     return false;
@@ -22,7 +22,7 @@ bool check_buffer(Container<int> & buffer, vector<int> const & expected) {
 }
 
 bool init_buffer(Container<int> & buffer, vector<int> const & values) {
-  cout << "Adding values..................";
+  cout << "Adding values...................";
   try {
     for (int i = 0; i < 5; ++i)
       buffer.push_back(values[i]);
@@ -36,7 +36,7 @@ bool init_buffer(Container<int> & buffer, vector<int> const & values) {
 }
 
 bool check_rotation_f(Container<int> & buffer, unsigned int const distance, vector<int> const & expected) {
-  cout << "Making rotation forward........";
+  cout << "Making rotation forward.........";
   try {
     buffer.rotate_forward(distance);
     cout << "OK" << endl;
@@ -51,7 +51,7 @@ bool check_rotation_f(Container<int> & buffer, unsigned int const distance, vect
 }
 
 bool check_rotation_b(Container<int> & buffer, unsigned int const distance, vector<int> const & expected) {
-  cout << "Making rotation back...........";
+  cout << "Making rotation back............";
   try {
     buffer.rotate_back(distance);
     cout << "OK" << endl;
@@ -66,7 +66,8 @@ bool check_rotation_b(Container<int> & buffer, unsigned int const distance, vect
 }
 
 int main() {
-  cout << "Making allocated container.....";
+  cout << "----------ROTATION TEST-----------" << endl;
+  cout << "Making allocated container......";
   Container<int> buffer = Container<int>(5);
   cout << "OK" << endl;
 

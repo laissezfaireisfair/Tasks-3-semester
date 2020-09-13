@@ -5,6 +5,7 @@ using namespace std;
 using namespace CycleContainer;
 
 int main() {
+  cout                 << "-----------MAKING TEST------------" << endl;
   cout                 << "Making empty container..........";
   Container<int> emptyCont = Container<int>();
   cout << "OK" << endl << "Making allocated container......";
