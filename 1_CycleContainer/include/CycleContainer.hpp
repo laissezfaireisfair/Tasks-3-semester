@@ -88,6 +88,13 @@ namespace CycleContainer {
       ++m_size;
     }
 
+    void push_back(T && elem) {
+      if (m_size == m_capacity)
+        throw std::overflow_error("Pushing to full container");
+      m_body[realPlace(m_size)] = std::move(elem);
+      ++m_size;
+    }
+
     void push_front(T const & elem) {
       if (m_size == m_capacity)
         throw std::overflow_error("Pushing to full container");
@@ -96,6 +103,15 @@ namespace CycleContainer {
       m_begin = placeNew;
       ++m_size;
     }
+    void push_front(T && elem) {
+      if (m_size == m_capacity)
+        throw std::overflow_error("Pushing to full container");
+      size_t placeNew = (m_capacity + m_begin - 1) % m_capacity;
+      m_body[placeNew] = std::move(elem);
+      m_begin = placeNew;
+      ++m_size;
+    }
+
 
     void pop_front() {
       if (is_empty())
