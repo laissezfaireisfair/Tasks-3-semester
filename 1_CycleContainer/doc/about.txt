@@ -3,28 +3,80 @@ When copy container to larger container, does reallocation to save memory.
 Rotation works only with full buffer.
 
 Tests was builded as:
-g++ -Wall -Wextra -pedantic -std=c++11 -I include/ *test file*
+g++ -Wall -Wextra -pedantic -std=c++14 -I include/ *test file*
+
 
 Interface:
 
 Container:
-    Container()
-    Container(std::uint64_t const capacity)
-    Container(std::uint64_t const size, T const & value)
+    Container() noexcept
+
+    explicit Container(size_t const capacity)
+
+    Container(size_t const size, T const & value)
+
     Container(Container<T> const & other)
+
     ~Container()
-    std::uint64_t get_size() const
-    std::uint64_t get_capacity() const
-    bool is_empty() const
-    T& at(std::uint64_t const place) const
-    T& operator[](std::uint64_t const place) const
-    T& get_front() const
-    T& get_back() const
+
+    size_t get_size() const noexcept
+
+    size_t get_capacity() const noexcept
+
+    bool is_empty() const noexcept
+
+    T& at(size_t const place)
+    T const & at(size_t const place) const
+
+    T& operator[](size_t const place)
+    T const & operator[](size_t const place) const
+
+    T& get_front()
+    T const & get_front() const
+
+    T& get_back()
+    T const & get_back() const
+
     void push_back(T const & elem)
+
+    void push_back(T && elem)
+
     void push_front(T const & elem)
+    void push_front(T && elem)
+
     void pop_front()
+
     void pop_back()
+
     void clean()
-    void rotate_forward(std::uint64_t const distance)
-    void rotate_back(std::uint64_t const distance)
+
+    void rotate_forward(size_t const distance)
+
+    void rotate_back(size_t const distance)
+
     Container<T>& operator=(Container<T> const & other)
+
+    int reserve() const noexcept
+
+    bool full() const noexcept
+    bool is_linear() const noexcept
+
+    // Also linearize in realloc case (in does not really affect efficiency)
+    void set_capacity(size_t const newCapacity)
+
+    void cut(size_t const newSize)
+    void expand(size_t const newSize, T const & elem)
+
+    // If can, replace with cut/expand. It may call extra constructor
+    void resize(size_t const newSize, T const & elem = T())
+
+    T* linearize()
+
+    void insert(size_t const place, T const & elem)
+
+    /// [first, last), dont do anyting in case first == last
+    void erase(size_t const first, size_t const last)
+
+    bool operator==(Container<T> const & other) const
+
+    bool operator!=(Container<T> const & other) const
