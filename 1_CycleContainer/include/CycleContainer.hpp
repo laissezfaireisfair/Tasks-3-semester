@@ -286,6 +286,21 @@ namespace CycleContainer {
       return !(*this == other);
     }
 
+    void swap(Container<T> & other) noexcept {
+      byte * const oldMemPool = m_memPool;
+      T * const oldBody = m_body;
+      size_t const oldSize = m_size;
+      size_t const oldCapacity = m_capacity;
+      m_memPool = other.m_memPool;
+      m_body = other.m_body;
+      m_size = other.m_size;
+      m_capacity = other.m_capacity;
+      other.m_memPool = oldMemPool;
+      other.m_body = oldBody;
+      other.m_size = oldSize;
+      other.m_capacity = oldCapacity;
+    }
+
   private:
     size_t m_capacity; // Potential size of container
     size_t m_size;     // Number of elements

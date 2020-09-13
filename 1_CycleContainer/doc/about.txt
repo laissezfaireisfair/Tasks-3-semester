@@ -80,3 +80,5 @@ Container:
     bool operator==(Container<T> const & other) const
 
     bool operator!=(Container<T> const & other) const
+
+    void swap(Container<T> & other) noexcept
