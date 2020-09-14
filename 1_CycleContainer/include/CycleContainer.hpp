@@ -83,21 +83,21 @@ namespace CycleContainer {
     }
 
     void push_back(T const & elem) {
-      if (m_size == m_capacity)
+      if (full())
         throw std::overflow_error("Pushing to full container");
       m_body[realPlace(m_size)] = elem;
       ++m_size;
     }
 
     void push_back(T && elem) {
-      if (m_size == m_capacity)
+      if (full())
         throw std::overflow_error("Pushing to full container");
       m_body[realPlace(m_size)] = std::move(elem);
       ++m_size;
     }
 
     void push_front(T const & elem) {
-      if (m_size == m_capacity)
+      if (full())
         throw std::overflow_error("Pushing to full container");
       size_t const placeNew = realPlace(m_capacity - 1);
       m_body[placeNew] = elem;
@@ -105,7 +105,7 @@ namespace CycleContainer {
       ++m_size;
     }
     void push_front(T && elem) {
-      if (m_size == m_capacity)
+      if (full())
         throw std::overflow_error("Pushing to full container");
       size_t const placeNew = realPlace(m_capacity - 1);
       m_body[placeNew] = std::move(elem);
@@ -136,7 +136,7 @@ namespace CycleContainer {
 
     void clean() {
       for (; m_size > 0; --m_size)
-        at(m_size - 1).~T();
+        get_back().~T();
       m_begin = 0;
     }
 
@@ -241,7 +241,7 @@ namespace CycleContainer {
     }
 
     void insert(size_t const place, T const & elem) {
-      if (m_size == m_capacity)
+      if (full())
         throw std::overflow_error("Try to insert to full buffer");
       if (place > m_size)
         throw std::invalid_argument("Wrong insert position");
@@ -256,7 +256,7 @@ namespace CycleContainer {
     }
 
     void insert(size_t const place, T && elem) {
-      if (m_size == m_capacity)
+      if (full())
         throw std::overflow_error("Try to insert to full buffer");
       if (place > m_size)
         throw std::invalid_argument("Wrong insert position");
