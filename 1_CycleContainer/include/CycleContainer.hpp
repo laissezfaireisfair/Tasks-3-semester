@@ -53,19 +53,19 @@ namespace CycleContainer {
     T& at(size_t const place) {
       if (place > m_size)
         throw std::out_of_range("Try to reach non-initialised elem of buffer");
-      return m_body[realPlace(place)];
+      return operator[](place);
     }
     T const & at(size_t const place) const {
       if (place > m_size)
         throw std::out_of_range("Try to reach non-initialised elem of buffer");
-      return m_body[realPlace(place)];
+      return operator[](place);
     }
 
-    T& operator[](size_t const place) {
-      return at(place);
+    T& operator[](size_t const place) noexcept {
+      return m_body[realPlace(place)];;
     }
-    T const & operator[](size_t const place) const {
-      return at(place);
+    T const & operator[](size_t const place) const noexcept {
+      return m_body[realPlace(place)];;
     }
 
     T& get_front() {
