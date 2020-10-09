@@ -1,5 +1,5 @@
 #pragma once
-#include "ElemObserver.h"
+#include "ConsoleLogger.h"
 
 class Elem {
 public:

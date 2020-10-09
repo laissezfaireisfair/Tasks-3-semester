@@ -6,8 +6,14 @@ Elem::Elem(int const value, int const position) {
 }
 
 bool Elem::operator<(Elem const & other) {
-	ElemObserver::comparsion_happened(*this, other);
-	return m_value < other.m_value;
+	ConsoleLogger::print_comparsion(*this, other);
+	if (m_value < other.m_value) { // Comparsion succecful => it will be swapped (I hope)
+		unsigned int tempPos = m_position;
+		m_position = other.m_position;
+		other.m_position = tempPos;
+		return true;
+	}
+	return false;
 }
 
 int Elem::get_value() const {
@@ -17,6 +23,7 @@ int Elem::get_value() const {
 int Elem::get_position() const {
 	return m_position;
 }
+
 void Elem::set_position(unsigned int const newPosition) {
 	m_position = newPosition;
 }
