@@ -2,5 +2,7 @@
 *.out
 *.a
 *.exe
-.idea/
-build/
+**/CMakeLists.txt
+**/.idea/
+**/build/
+**/cmake-build-debug/
