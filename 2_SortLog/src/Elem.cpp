@@ -14,10 +14,17 @@ Elem::Elem(int const value, unsigned int const position, ConsoleLogger & logger)
 	m_logger = &logger;
 }
 
+Elem::Elem(Elem const & other) {
+    m_value = other.m_value;
+    m_position = other.m_position;
+    m_contained = other.m_contained;
+    m_logger = other.m_logger;
+}
+
 bool Elem::operator<(Elem & other) {
-	if (m_value < other.m_value) { // Comparsion succecful => it will be swapped (I hope)
+	if (m_value < other.m_value) { // Comparison successful => it will be swapped (I hope)
 		if (m_contained && other.m_contained)
-			m_logger->print_comparsion(*this, other);
+            m_logger->print_comparsion(*this, other);
 		unsigned int tempPos = m_position;
 		m_position = other.m_position;
 		other.m_position = tempPos;
@@ -32,7 +39,16 @@ Elem & Elem::operator=(Elem const & other) {
 	m_value = other.m_value;
 	m_position = other.m_position;
 	m_contained = other.m_contained;
+	m_logger = other.m_logger;
 	return *this;
+}
+
+bool Elem::operator==(Elem const & other) const {
+    return m_value == other.m_value;
+}
+
+bool Elem::operator!=(Elem const & other) const {
+    return m_value != other.m_value;
 }
 
 unsigned int Elem::position() const {
