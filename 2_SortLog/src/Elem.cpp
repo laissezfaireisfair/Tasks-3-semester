@@ -1,5 +1,10 @@
 #include "Elem.h"
 
+Elem::Elem() {
+	m_value = -1;
+	m_position = 0;
+}
+
 Elem::Elem(int const value, int const position) {
 	m_value = value;
 	m_position = position;
@@ -14,6 +19,12 @@ bool Elem::operator<(Elem const & other) {
 		return true;
 	}
 	return false;
+}
+
+Elem & Elem::operator=(Elem const & other) {
+	m_value = other.m_value;
+	m_position = other.m_position;
+	return *this;
 }
 
 int Elem::get_value() const {
