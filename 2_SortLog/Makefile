@@ -1,8 +1,8 @@
 CC = g++
 CFLAGS = -Wall -Wextra -Werror -pedantic -std=c++17 -I include/
 C_DEBUG_FLAGS = -Wall -Wextra -Werror -pedantic -std=c++17 -I include/ -g
-HEADERS = include/ConsoleLogger.h include/Elem.h
-SRC = src/main.cpp src/Elem.cpp src/ConsoleLogger.cpp
+HEADERS = include/ConsoleLogger.h include/Elem.h include/Operation.h include/Assignment.h include/Comparison.h
+SRC = src/main.cpp src/Elem.cpp src/ConsoleLogger.cpp src/Operation.cpp src/Assignment.cpp src/Comparison.cpp
 
 all: build
 	./build/main.out
