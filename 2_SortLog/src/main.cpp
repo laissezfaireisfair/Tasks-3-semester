@@ -10,11 +10,8 @@ int main() {
     ConsoleLogger logger;
 	for (unsigned int i = 0; i < numberOfElements; ++i)
 		vector[i] = Elem(static_cast<int>(numberOfElements - i - 1), i, logger);
-    logger.initialise(vector);
+    ConsoleLogger::print_vec(vector);
 	std::sort(vector.begin(), vector.end());
-	if (logger.is_vector_same(vector))
-	    std::cout << "Vector traced normally" << std::endl;
-	else
-        std::cout << "TRACING FAILED" << std::endl;
+	logger.print_operations();
 	return 0;
 }

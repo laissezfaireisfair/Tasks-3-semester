@@ -1,4 +1,7 @@
 #include "Elem.h"
+#include "Operation.h"
+#include "Comparison.h"
+#include "Assignment.h"
 
 Elem::Elem() {
 	m_value = -1;
@@ -22,12 +25,9 @@ Elem::Elem(Elem const & other) {
 }
 
 bool Elem::operator<(Elem & other) {
-	if (m_value < other.m_value) { // Comparison successful => it will be swapped (I hope)
-		if (m_contained && other.m_contained)
-            m_logger->print_comparsion(*this, other);
-		unsigned int tempPos = m_position;
-		m_position = other.m_position;
-		other.m_position = tempPos;
+	if (m_value < other.m_value) {
+	    if (m_contained && other.m_contained)
+	        m_logger->operation_happened(Comparison(position(), other.position()));
 		return true;
 	}
 	return false;
@@ -36,6 +36,8 @@ bool Elem::operator<(Elem & other) {
 Elem & Elem::operator=(Elem const & other) {
 	if (&other == this)
 		return *this;
+	if (m_contained && other.m_contained)
+	    m_logger->operation_happened(Assignment(position(), other.position()));
 	m_value = other.m_value;
 	m_position = other.m_position;
 	m_contained = other.m_contained;

@@ -1,32 +1,26 @@
 #include <iostream>
 #include "ConsoleLogger.h"
-#include "Elem.h"
+#include "Operation.h"
+#include "ELem.h"
 
 ConsoleLogger::ConsoleLogger() {
-	m_vector = std::vector<Elem>();
+    m_operations = std::vector<Operation*>();
 }
 
-void ConsoleLogger::initialise(std::vector<Elem> const & vector) {
-    m_vector = vector;
-    print_vec();
+void ConsoleLogger::operation_happened(const Operation &operation) {
+    auto *operationPtr = new Operation(operation);
+    m_operations.push_back(operationPtr);
 }
 
-void ConsoleLogger::print_comparsion(Elem const & left, Elem const & right) {
-	std::swap(m_vector[left.position()], m_vector[right.position()]);
-	print_vec();
+void ConsoleLogger::print_operations() const {
+    for (auto & operation : m_operations) {
+        std::cout << operation->get_description() << " between " << operation->get_left_elem_position() << " and ";
+        std::cout << operation->get_right_elem_position() << std::endl;
+    }
 }
 
-bool ConsoleLogger::is_vector_same(std::vector<Elem> const & vector) const {
-    if (vector.size() != m_vector.size())
-        return false;
-    for (unsigned int i = 0; i < vector.size(); ++i)
-        if (vector[i] != m_vector[i])
-            return false;
-    return true;
-}
-
-void ConsoleLogger::print_vec() const {
-    for (auto & elem : m_vector)
+void ConsoleLogger::print_vec(std::vector<Elem> const & vec) {
+    for (auto & elem : vec)
         std::cout << elem.value() << " ";
     std::cout << std::endl;
 }

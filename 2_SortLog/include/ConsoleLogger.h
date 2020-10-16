@@ -2,15 +2,15 @@
 
 #include <vector>
 
+class Operation;
 class Elem;
 
 class ConsoleLogger {
 public:
 	ConsoleLogger();
-	void initialise(std::vector<Elem> const & vector);
-	void print_comparsion(Elem const & left, Elem const & right);
-	bool is_vector_same(std::vector<Elem> const & vector) const;
+	void operation_happened(Operation const & operation);
+    void print_operations() const;
+    static void print_vec(std::vector<Elem> const & vec);
 private:
-    void print_vec() const;
-	std::vector<Elem> m_vector; // Using copy because sort might modify original vector
+	std::vector<Operation*> m_operations;
 };
