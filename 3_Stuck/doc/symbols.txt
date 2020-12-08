@@ -1,0 +1,10 @@
+@ - player
+- - horizontal room walls
+| - vertical room walls
+. - place inside room
+M - Medical kit
+A - Armor plates
+↗ - Arrows
+¤ - Monster
+ϟ - Reactor detail
+֎ - Emergency boat reactor
