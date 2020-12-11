@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-/// Point describes the place in field
+/// Point describes the place in map
 class Point {
     using uint16 = std::uint16_t;
 public:

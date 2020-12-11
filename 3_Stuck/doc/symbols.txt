@@ -6,5 +6,6 @@ M - Medical kit
 A - Armor plates
 ↗ - Arrows
 ¤ - Monster
+T - Trap
 ϟ - Reactor detail
 ֎ - Emergency boat reactor
